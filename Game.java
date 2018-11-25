@@ -43,7 +43,7 @@ public class Game
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
         transporter = new Room("in the transporter room");
-        
+         
         // initialise room exits
         outside.setExit("east", theater);
         outside.setExit("south", lab);
