@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=ItemCollection
+comment0.text=\r\n\ A\ collection\ of\ items.\r\n\ @author\ Ralf\ van\ den\ Broek\r\n
+comment1.params=
+comment1.target=java.lang.String\ toString()
+numComments=2

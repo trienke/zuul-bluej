@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Player
+comment0.text=\r\n\ The\ state\ of\ the\ player\ in\ the\ game.\r\n\ @author\ Ralf\ van\ den\ Broek\r\n
+comment1.params=room
+comment1.target=Player(Room)
+comment1.text=\r\n\ Create\ a\ new\ player.\r\n\ @param\ room\ Starting\ room.\r\n
+comment2.params=direction
+comment2.target=void\ move(java.lang.String)
+comment2.text=\r\n\ Move\ the\ player\ in\ a\ direction.\r\n\ @param\ direction\ Direction.\r\n\ @throws\ IllegalArgumentException\ If\ the\ direction\ is\ invalid.\r\n
+comment3.params=name
+comment3.target=void\ take(java.lang.String)
+comment3.text=\r\n\ Take\ an\ item\ in\ the\ current\ room.\r\n\ @param\ name\ Item\ name.\r\n\ @throws\ IllegalArgumentException\ If\ the\ item\ is\ invalid.\r\n\ @throws\ LoadTooHeavyException\ If\ the\ player's\ load\ would\ become\ too\ high.\r\n
+comment4.params=name
+comment4.target=void\ drop(java.lang.String)
+comment4.text=\r\n\ Drop\ an\ item\ in\ the\ current\ room.\r\n\ @param\ name\ Item\ name.\r\n\ @throws\ IllegalArgumentException\ If\ the\ item\ is\ invalid.\r\n
+comment5.params=
+comment5.target=void\ look()
+comment5.text=\r\n\ Look\ at\ the\ current\ room.\r\n
+comment6.params=
+comment6.target=java.lang.String\ getItemString()
+comment6.text=\r\n\ Return\ a\ string\ describing\ the\ items\ the\ player\ has.\r\n\ @return\ Details\ of\ the\ items\ the\ player\ has.\r\n
+numComments=7

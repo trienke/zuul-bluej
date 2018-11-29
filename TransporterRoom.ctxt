@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=TransporterRoom
+comment0.text=\r\n\ A\ transporter\ room\ with\ random\ exits.\r\n\ @author\ Ralf\ van\ den\ Broek\r\n
+comment1.params=description\ rooms
+comment1.target=TransporterRoom(java.lang.String,\ Room[])
+comment1.text=\r\n\ Create\ a\ new\ transporter\ room.\r\n\ @param\ description\ Room\ description.\r\n\ @param\ rooms\ Possible\ exits.\r\n
+comment2.params=direction
+comment2.target=Room\ getExit(java.lang.String)
+numComments=3

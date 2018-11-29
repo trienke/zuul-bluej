@@ -1,0 +1,4 @@
+#BlueJ class context
+comment0.target=LoadTooHeavyException
+comment0.text=\r\n\ Exception\ if\ the\ player's\ load\ becomes\ too\ heavy.\r\n\ @author\ Ralf\ van\ den\ Broek\r\n
+numComments=1
