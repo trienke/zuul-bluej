@@ -18,8 +18,8 @@
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-        
+    private Player player;
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -35,15 +35,15 @@ public class Game
     private void createRooms()
     {
         Room outside, theater, pub, lab, office, transporter;
-      
+
         // create the rooms
         outside = new Room("outside the main entrance of the university");
         theater = new Room("in a lecture theater");
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
-        transporter = new Room("in the transporter room");
-         
+        transporter = new TransporterRoom("in a transporter room", new Room[]{outside, theater, pub, lab, office});
+
         // initialise room exits
         outside.setExit("east", theater);
         outside.setExit("south", lab);
@@ -55,13 +55,24 @@ public class Game
 
         lab.setExit("north", outside);
         lab.setExit("east", office);
-        lab.setExit("west", transporter);
+        lab.setExit("south", transporter);
 
         office.setExit("west", lab);
-        
-        transporter.setExit("west", transporter);
 
-        currentRoom = outside;  // start game outside
+        Item desk, computer, stein, key;
+        //Create the items
+        desk = new Item("desk", "a wooden desk", 100);
+        computer = new Item("computer", "a laptop computer", 5);
+        stein = new Item("stein","a beer stein", 2);
+        key = new Item("key", "an old key", 1);
+
+        //add items to the rooms
+        office.addItem(computer);
+        office.addItem(desk);
+        pub.addItem(stein);
+        theater.addItem(key);
+
+        player = new Player(outside); // start game outside
     }
 
     /**
@@ -73,7 +84,7 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-                
+
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -92,7 +103,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        player.look();
     }
 
     /**
@@ -108,20 +119,33 @@ public class Game
 
         switch (commandWord) {
             case UNKNOWN:
-                System.out.println("I don't know what you mean...");
-                break;
+            System.out.println("I don't know what you mean...");
+            break;
 
             case HELP:
-                printHelp();
-                break;
+            printHelp();
+            break;
 
             case GO:
-                goRoom(command);
-                break;
+            goRoom(command);
+            break;
+
+            case LOOK:
+            player.look();
+            break;
+
+            case TAKE:
+            takeItem(command);
+            break;
+
+            case DROP:
+            dropItem(command);
+            break;
 
             case QUIT:
-                wantToQuit = quit(command);
-                break;
+            wantToQuit = quit(command);
+            break;
+
         }
         return wantToQuit;
     }
@@ -157,16 +181,56 @@ public class Game
         String direction = command.getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
+        try {
+            player.move(direction);
+            player.look();
+        } catch (IllegalArgumentException e){
             System.out.println("There is no door!");
         }
-        else {
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+    }
+
+    /**
+     * Try to take an item. If impossible, show an error message.
+     */
+    private void takeItem(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to take...
+            System.out.println("Take what?");
+            return;
+        }
+        String item = command.getSecondWord();
+        // Try to take item.
+        try {
+            player.take(item);
+            player.look();
+        } catch (LoadTooHeavyException e) {
+            System.out.println("That's too heavy!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("I can't find that!");
         }
     }
+
+    /**
+     * Try to drop an item. If impossible, show an error message
+     */
+    private void dropItem(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("Drop what?");
+            return;
+        }
+        String item = command.getSecondWord();
+        // Try to drop item.
+        try {
+            player.drop(item);
+            player.look();
+        } catch (IllegalArgumentException e) {
+            System.out.println("I don't have that!");
+        }
+    }
+
 
     /** 
      * "Quit" was entered. Check the rest of the command to see

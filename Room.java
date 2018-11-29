@@ -1,6 +1,4 @@
-import java.util.Set;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Class Room - a room in an adventure game.
@@ -19,7 +17,8 @@ import java.util.Iterator;
 public class Room 
 {
     private String description;
-    private HashMap<String, Room> exits;        // stores exits of this room.
+    private Map<String, Room> exits;        // stores exits of this room.
+    private Map<String, Item> items;
 
     /**
      * Create a room described "description". Initially, it has
@@ -31,6 +30,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
+        items = new ItemCollection();
     }
 
     /**
@@ -41,6 +41,22 @@ public class Room
     public void setExit(String direction, Room neighbor) 
     {
         exits.put(direction, neighbor);
+    }
+
+    /**
+     * Add an item in this room.
+     * @param item The item.
+     */
+    public void addItem(Item item) {
+        items.put(item.getName(), item);
+    }
+
+    /**
+     * Remove an item from this room.
+     * @param item The item to remove.
+     */
+    public void removeItem(Item item) {
+        items.remove(item.getName());
     }
 
     /**
@@ -60,7 +76,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + "." + getItemString() + "\n" + getExitString();
     }
 
     /**
@@ -79,6 +95,19 @@ public class Room
     }
 
     /**
+     * Return a string describing the items in the room.
+     * @return Details of the items in the room.
+     */
+    private String getItemString()
+    {
+        String returnString = items.toString();
+        if (returnString.length() > 0) {
+            returnString = "\nYou see " + returnString + ".";
+        }
+        return returnString;
+    }
+    
+    /**
      * Return the room that is reached if we go from this room in direction
      * "direction". If there is no room in that direction, return null.
      * @param direction The exit's direction.
@@ -87,6 +116,16 @@ public class Room
     public Room getExit(String direction) 
     {
         return exits.get(direction);
+    }
+    
+    /**
+     * Get an item in the room.
+     * @param name Item name.
+     * @return The item with the given name.
+     */
+    public Item getItem(String name)
+    {
+        return items.get(name);
     }
 }
 
